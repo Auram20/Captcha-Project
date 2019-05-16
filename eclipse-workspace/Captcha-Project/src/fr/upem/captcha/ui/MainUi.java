@@ -9,9 +9,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -22,7 +24,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
-import fr.upem.captcha.images.AbstractImage;
+import fr.upem.captcha.images.Images;
 import fr.upem.captcha.images.panneaux.Panneau;
 import fr.upem.captcha.images.ponts.Pont;
 import fr.upem.captcha.images.villes.Ville;
@@ -32,7 +34,11 @@ public class MainUi {
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
 	
 	
-	final private static AbstractImage[] images = {new Pont(), new Ville(), new Panneau()};
+	final private static Images[] images = {new Pont(), new Ville(), new Panneau()};
+	
+	private static int result = 0;
+	private static int goal = 0;
+	private static int difficulty = 0;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -50,7 +56,7 @@ public class MainUi {
 		JButton okButton = createOkButton();
 
 		for(int i = 0; i < 9; ++i) {
-			frame.add(createLabelImage(getRandomURL())); //ajouter des composants à la fenêtre
+			frame.add(createLabelImage("/fr/upem/captcha/images/le havre.jpg", 0)); //ajouter des composants à la fenêtre
 		}
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
@@ -76,24 +82,28 @@ public class MainUi {
 					
 					@Override
 					public void run() { // c'est un runnable
-						System.out.println("J'ai cliqué sur Ok");
+						if(result < goal) {
+							System.out.println("Perdu");
+						} else {
+							System.out.println("Gagné");
+						}
 					}
 				});
 			}
 		});
 	}
 	
-	private static JLabel createLabelImage(String imageLocation) throws IOException{
+	private static JLabel createLabelImage(String imageLocation, int point) throws IOException{
 		
 		final URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
-		System.out.println(url.toString());
 		
+		Objects.requireNonNull(url);
 		
-		return createLabelImage(url);
+		return createLabelImage(url, point);
 		
 	}
 	
-	private static JLabel createLabelImage(URL url) throws IOException {
+	private static JLabel createLabelImage(URL url, int point) throws IOException {
 		
 		System.out.println(url); 
 		
@@ -135,11 +145,13 @@ public class MainUi {
 							label.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 							isSelected = true;
 							selectedImages.add(url);
+							result += point;
 						}
 						else {
 							label.setBorder(BorderFactory.createEmptyBorder());
 							isSelected = false;
 							selectedImages.remove(url);
+							result += point;
 						}
 						
 					}
