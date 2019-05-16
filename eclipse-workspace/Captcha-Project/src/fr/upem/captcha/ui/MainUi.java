@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -21,11 +22,20 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
+import fr.upem.captcha.images.AbstractImage;
+import fr.upem.captcha.images.panneaux.Panneau;
+import fr.upem.captcha.images.ponts.Pont;
+import fr.upem.captcha.images.villes.Ville;
+
 public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
 	
+	
+	final private static AbstractImage[] images = {new Pont(), new Ville(), new Panneau()};
+	
 	public static void main(String[] args) throws IOException {
+		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
 		
 		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
@@ -39,18 +49,9 @@ public class MainUi {
 		
 		JButton okButton = createOkButton();
 
-		
-		frame.add(createLabelImage("../images/centre ville.jpg")); //ajouter des composants à la fenêtre
-		frame.add(createLabelImage("../images/le havre.jpg"));
-		frame.add(createLabelImage("../images/panneau 70.jpg"));
-		frame.add(createLabelImage("../images/panneaubleu-carre.jpeg"));
-		frame.add(createLabelImage("../images/parking.jpg"));
-		frame.add(createLabelImage("../images/route panneau.jpg"));
-		frame.add(createLabelImage("../images/tour eiffel.jpg"));
-		frame.add(createLabelImage("../images/ville espace verts.jpg"));
-		frame.add(createLabelImage("../images/voie pieton.jpg"));
-		
-		
+		for(int i = 0; i < 9; ++i) {
+			frame.add(createLabelImage(getRandomURL())); //ajouter des composants à la fenêtre
+		}
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
 		
@@ -85,6 +86,14 @@ public class MainUi {
 	private static JLabel createLabelImage(String imageLocation) throws IOException{
 		
 		final URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
+		System.out.println(url.toString());
+		
+		
+		return createLabelImage(url);
+		
+	}
+	
+	private static JLabel createLabelImage(URL url) throws IOException {
 		
 		System.out.println(url); 
 		
@@ -140,5 +149,10 @@ public class MainUi {
 		});
 		
 		return label;
+	}
+	
+	private static URL getRandomURL() throws MalformedURLException {
+		int rand = (int)Math.floor(Math.random() * images.length);
+		return images[rand].getRandomPhotoURL();
 	}
 }
