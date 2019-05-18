@@ -6,6 +6,7 @@ final public class Ville extends Specific {
 	
 	public Ville() {
 		super();
+		System.out.println("Ville");
 		load();
 	}
 	

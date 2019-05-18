@@ -6,6 +6,7 @@ final public class Pont extends Specific {
 	
 	public Pont() {
 		super();
+		System.out.println("Pont");
 		load();
 	}
 	

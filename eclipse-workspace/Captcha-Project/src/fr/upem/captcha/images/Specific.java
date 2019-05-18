@@ -37,7 +37,7 @@ abstract public class Specific extends AbstractImages {
 	
 	@Override
 	public boolean checkResources(String name) {
-		return name.endsWith("jpg") || name.endsWith("jpeg") || name.endsWith("png");
+		return (name.endsWith("jpg") || name.endsWith("jpeg") || name.endsWith("png")) && !name.endsWith("/");
 	}
 
 	@Override

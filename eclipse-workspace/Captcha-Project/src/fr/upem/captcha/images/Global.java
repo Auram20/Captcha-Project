@@ -32,13 +32,13 @@ public class Global extends AbstractImages {
 	}
 	
 	public List<URL> getPhotos(String className) throws ClassNotFoundException {
-		AbstractImages images = Objects.requireNonNull(findClass(className));
+		AbstractImages images = findClass(className);
 		return images.getPhotos();
 	}
 
 	@Override
 	public List<URL> getRandomPhotosURL(int length) {
-		List<URL> photos = getPhotos();
+		List<URL> photos = new ArrayList<URL>(getPhotos());
 		if(photos.size() <= length) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -48,7 +48,7 @@ public class Global extends AbstractImages {
 	}
 	
 	public List<URL> getRandomPhotosURL(String className, int length) throws ClassNotFoundException {
-		List<URL> photos = getPhotos(className);
+		List<URL> photos = new ArrayList<URL>(getPhotos(className));
 		if(photos.size() <= length) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -66,6 +66,7 @@ public class Global extends AbstractImages {
 	
 	public boolean isPhotoCorrect(URL url, String className) throws ClassNotFoundException {
 		List<URL> urls = getPhotos(className);
+		System.out.println(urls.size());
 		return urls.contains(url);
 	}
 	
@@ -99,7 +100,6 @@ public class Global extends AbstractImages {
 	
 	static public int occurrences(String s, String c) {
 		if(c.length() != 0) {
-			System.out.println((s.length() - s.replace(c, "").length()) / c.length());
 			return (s.length() - s.replace(c, "").length()) / c.length();
 		} else {
 			return s.length();

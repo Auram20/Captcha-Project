@@ -12,8 +12,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -30,7 +28,6 @@ public class MainUi {
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
 	final private static Global images = new Global();
 	
-	private static int result = 0;
 	private static int goal = 0;
 	private static int difficulty = 0;
 	private static String actualClassName;
@@ -39,6 +36,8 @@ public class MainUi {
 		
 		images.load();
 		actualClassName = images.getRandomClassName();
+		
+		System.out.println(actualClassName);
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
 		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
@@ -53,8 +52,9 @@ public class MainUi {
 			randomURLs = images.getRandomPhotosURL(actualClassName, 4);
 			randomURLs.addAll(images.getRandomPhotosURL(5));
 			for(URL randomURL : randomURLs) {
-				frame.add(createLabelImage(randomURL, 0));
+				frame.add(createLabelImage(randomURL));
 			}
+			goal = count(randomURLs);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,6 +80,7 @@ public class MainUi {
 					
 					@Override
 					public void run() { // c'est un runnable
+						int result = countResult(selectedImages);
 						if(result < goal) {
 							System.out.println("Perdu");
 						} else {
@@ -91,17 +92,42 @@ public class MainUi {
 		});
 	}
 	
-	private static JLabel createLabelImage(String imageLocation, int point) throws IOException{
-		
-		URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
-		
-		Objects.requireNonNull(url);
-		
-		return createLabelImage(url, point);
-		
+	private static int count(List<URL> urls) {
+		int sum = 0;
+		try {
+			for(URL url : urls) {
+				if(images.isPhotoCorrect(url, actualClassName)) {
+					++sum;
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		System.out.println("Goal : " + sum);
+		return sum;
 	}
 	
-	private static JLabel createLabelImage(URL url, int point) throws IOException {
+	private static int countResult(List<URL> urls) {
+		int sum = 0;
+		try {
+			for(URL url : urls) {
+				if(images.isPhotoCorrect(url, actualClassName)) {
+					++sum;
+				} else {
+					--sum;
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		System.out.println("Result : " + sum);
+		return sum;
+	}
+	
+	private static JLabel createLabelImage(URL url) throws IOException {
 		
 		System.out.println(url); 
 		
@@ -143,13 +169,11 @@ public class MainUi {
 							label.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 							isSelected = true;
 							selectedImages.add(url);
-							result += point;
 						}
 						else {
 							label.setBorder(BorderFactory.createEmptyBorder());
 							isSelected = false;
 							selectedImages.remove(url);
-							result += point;
 						}
 						
 					}

@@ -6,6 +6,7 @@ final public class Panneau extends Specific {
 	
 	public Panneau() {
 		super();
+		System.out.println("Panneau");
 		load();
 	}
 	
