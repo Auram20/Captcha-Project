@@ -32,10 +32,7 @@ import fr.upem.captcha.images.villes.Ville;
 public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
-	
-	
 	final private static Images[] images = {new Pont(), new Ville(), new Panneau()};
-	
 	private static int result = 0;
 	private static int goal = 0;
 	private static int difficulty = 0;
@@ -43,30 +40,21 @@ public class MainUi {
 	public static void main(String[] args) throws IOException {
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
-		
 		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
-		
 		frame.setLayout(layout);  // affection du layout dans la fenêtre.
 		frame.setSize(1024, 768); // définition de la taille
 		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
-		 
-		
 		JButton okButton = createOkButton();
 
 		for(int i = 0; i < 9; ++i) {
-			frame.add(createLabelImage("/fr/upem/captcha/images/le havre.jpg", 0)); //ajouter des composants à la fenêtre
+			frame.add(createLabelImage("/fr/upem/captcha/images/villes/le havre.jpg", 0)); //ajouter des composants à la fenêtre
 		}
-		
+
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
-		
-		
 		frame.add(okButton);
-		
 		frame.setVisible(true);
 	}
-	
 	
 	private static GridLayout createLayout(){
 		return new GridLayout(4,3);
@@ -95,7 +83,7 @@ public class MainUi {
 	
 	private static JLabel createLabelImage(String imageLocation, int point) throws IOException{
 		
-		final URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
+		URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
 		
 		Objects.requireNonNull(url);
 		
