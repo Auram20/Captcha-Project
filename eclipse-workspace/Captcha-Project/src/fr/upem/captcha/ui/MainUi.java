@@ -20,7 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
-
+import static javax.swing.JOptionPane.showMessageDialog;
 import fr.upem.captcha.images.Global;
 
 public class MainUi {
@@ -36,7 +36,7 @@ public class MainUi {
 		
 		images.load();
 		actualClassName = images.getRandomClassName();
-		
+		String toSearch =  actualClassName.substring(actualClassName.lastIndexOf(".")+1);
 		System.out.println(actualClassName);
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
@@ -60,8 +60,9 @@ public class MainUi {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
+		
+		showMessageDialog(null, "Séléctionnez les images correspondant à des : " + toSearch);
+		frame.add(new JTextArea("Séléctionnez les images correspondant à des : " + toSearch));
 		frame.add(okButton);
 		frame.setVisible(true);
 	}
@@ -85,6 +86,7 @@ public class MainUi {
 							System.out.println("Perdu");
 						} else {
 							System.out.println("Gagné");
+							showMessageDialog(null, "Captcha réussi ! ");
 						}
 					}
 				});
