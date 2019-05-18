@@ -9,10 +9,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.imageio.ImageIO;
@@ -24,23 +23,24 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
-import fr.upem.captcha.images.Images;
-import fr.upem.captcha.images.panneaux.Panneau;
-import fr.upem.captcha.images.ponts.Pont;
-import fr.upem.captcha.images.villes.Ville;
+import fr.upem.captcha.images.Global;
 
 public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
 	
 	
-	final private static Images[] images = {new Pont(), new Ville(), new Panneau()};
+	final private static Global images = new Global();
 	
 	private static int result = 0;
 	private static int goal = 0;
 	private static int difficulty = 0;
+	private static String actualClassName;
 	
 	public static void main(String[] args) throws IOException {
+		
+		images.load();
+		actualClassName = images.getRandomClassName();
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
 		
@@ -55,8 +55,19 @@ public class MainUi {
 		
 		JButton okButton = createOkButton();
 
-		for(int i = 0; i < 9; ++i) {
-			frame.add(createLabelImage("/fr/upem/captcha/images/le havre.jpg", 0)); //ajouter des composants à la fenêtre
+		System.out.println(MainUi.class.getResource(""));
+		
+		List<URL> randomURLs;
+		try {
+			randomURLs = images.getRandomPhotosURL(actualClassName, 4);
+			randomURLs.addAll(images.getRandomPhotosURL(5));
+			for(URL randomURL : randomURLs) {
+				frame.add(createLabelImage(randomURL, 0));
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.exit(1);
 		}
 		
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
@@ -161,10 +172,5 @@ public class MainUi {
 		});
 		
 		return label;
-	}
-	
-	private static URL getRandomURL() throws MalformedURLException {
-		int rand = (int)Math.floor(Math.random() * images.length);
-		return images[rand].getRandomPhotoURL();
 	}
 }
