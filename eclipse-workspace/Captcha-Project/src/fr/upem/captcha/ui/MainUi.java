@@ -28,8 +28,6 @@ import fr.upem.captcha.images.Global;
 public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
-	
-	
 	final private static Global images = new Global();
 	
 	private static int result = 0;
@@ -43,19 +41,12 @@ public class MainUi {
 		actualClassName = images.getRandomClassName();
 		
 		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
-		
 		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
-		
 		frame.setLayout(layout);  // affection du layout dans la fenêtre.
 		frame.setSize(1024, 768); // définition de la taille
 		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
-		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
-		 
-		
 		JButton okButton = createOkButton();
-
-		System.out.println(MainUi.class.getResource(""));
 		
 		List<URL> randomURLs;
 		try {
@@ -69,15 +60,11 @@ public class MainUi {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		frame.add(new JTextArea("Cliquez n'importe où ... juste pour tester l'interface !"));
-		
-		
 		frame.add(okButton);
-		
 		frame.setVisible(true);
 	}
-	
 	
 	private static GridLayout createLayout(){
 		return new GridLayout(4,3);
@@ -106,7 +93,7 @@ public class MainUi {
 	
 	private static JLabel createLabelImage(String imageLocation, int point) throws IOException{
 		
-		final URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
+		URL url = MainUi.class.getResource(imageLocation); //Aller chercher les images !! IMPORTANT 
 		
 		Objects.requireNonNull(url);
 		
