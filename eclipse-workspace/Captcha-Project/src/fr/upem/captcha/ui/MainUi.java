@@ -31,10 +31,18 @@ public class MainUi {
 	private static int goal = 0;
 	private static int difficulty = 0;
 	private static String actualClassName;
+	private static JFrame frame = new JFrame("Captcha"); // Création de la fenêtre principale
 	
 	public static void main(String[] args) {
 		
 		images.load();
+		
+		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
+		frame.setLayout(layout);  // affection du layout dans la fenêtre.
+		frame.setSize(1024, 768); // définition de la taille
+		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
+		
 		play();
 	}
 	
@@ -43,12 +51,6 @@ public class MainUi {
 		String toSearch =  actualClassName.substring(actualClassName.lastIndexOf(".")+1);
 		System.out.println(actualClassName);
 		
-		JFrame frame = new JFrame("Capcha"); // Création de la fenêtre principale
-		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
-		frame.setLayout(layout);  // affection du layout dans la fenêtre.
-		frame.setSize(1024, 768); // définition de la taille
-		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Lorsque l'on ferme la fenêtre on quitte le programme.
 		JButton okButton = createOkButton();
 		
 		List<URL> randomURLs;
@@ -88,10 +90,14 @@ public class MainUi {
 						int result = countResult(selectedImages);
 						if(result < goal) {
 							System.out.println("Perdu");
+							frame.getContentPane().removeAll();
+							frame.repaint();
+							selectedImages.clear();
 							play();
 						} else {
 							System.out.println("Gagné");
 							showMessageDialog(null, "Captcha réussi ! ");
+							System.exit(0);
 						}
 					}
 				});

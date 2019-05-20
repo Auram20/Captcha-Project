@@ -65,7 +65,6 @@ public class Global extends AbstractImages {
 	
 	public boolean isPhotoCorrect(URL url, String className) throws ClassNotFoundException {
 		List<URL> urls = getPhotos(className);
-		System.out.println(urls.size());
 		return urls.contains(url);
 	}
 	
