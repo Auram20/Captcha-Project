@@ -89,6 +89,7 @@ public class MainUi {
 					public void run() { // c'est un runnable
 						int result = countResult(selectedImages);
 						if(result < goal) {
+							showMessageDialog(null, "Captcha échoué  ");
 							System.out.println("Perdu");
 							frame.getContentPane().removeAll();
 							frame.repaint();
