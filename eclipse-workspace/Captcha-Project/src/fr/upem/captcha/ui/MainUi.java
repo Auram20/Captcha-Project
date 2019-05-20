@@ -32,9 +32,13 @@ public class MainUi {
 	private static int difficulty = 0;
 	private static String actualClassName;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		
 		images.load();
+		play();
+	}
+	
+	private static void play() {
 		actualClassName = images.getRandomClassName();
 		
 		System.out.println(actualClassName);
@@ -55,7 +59,7 @@ public class MainUi {
 				frame.add(createLabelImage(randomURL));
 			}
 			goal = count(randomURLs);
-		} catch (ClassNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.exit(1);
@@ -83,6 +87,7 @@ public class MainUi {
 						int result = countResult(selectedImages);
 						if(result < goal) {
 							System.out.println("Perdu");
+							play();
 						} else {
 							System.out.println("Gagné");
 						}
