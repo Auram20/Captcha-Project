@@ -7,11 +7,14 @@ import java.util.List;
 
 public class Global extends AbstractImages {
 
-	protected ArrayList<AbstractImages> subClasses = new ArrayList<AbstractImages>();
+	private ArrayList<AbstractImages> subClasses = new ArrayList<AbstractImages>();
 	
+	public Global() {
+		super();
+	}
 	
 	@SuppressWarnings("deprecation")
-	protected void addClassToList(String className) {
+	private void addClassToList(String className) {
 		Object o;
 		try {
 			o = Class.forName(className).newInstance();

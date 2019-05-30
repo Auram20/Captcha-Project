@@ -29,7 +29,7 @@ public class MainUi {
 	final private static Global images = new Global();
 	
 	private static int goal = 0;
-	private static int difficulty = 0;
+	private static int attemptNumber = 0;
 	private static String actualClassName;
 	private static JFrame frame = new JFrame("Captcha"); // Création de la fenêtre principale
 	
@@ -37,7 +37,7 @@ public class MainUi {
 		
 		images.load();
 		
-		GridLayout layout = createLayout();  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
+		GridLayout layout = createLayout(attemptNumber);  // Création d'un layout de type Grille avec 4 lignes et 3 colonnes
 		frame.setLayout(layout);  // affection du layout dans la fenêtre.
 		frame.setSize(1024, 768); // définition de la taille
 		frame.setResizable(false);  // On définit la fenêtre comme non redimentionnable
@@ -55,8 +55,9 @@ public class MainUi {
 		
 		List<URL> randomURLs;
 		try {
-			randomURLs = images.getRandomPhotosURL(actualClassName, 4);
-			randomURLs.addAll(images.getRandomPhotosURL(5));
+			System.out.println(algorithm());
+			randomURLs = images.getRandomPhotosURL(actualClassName, 4 + algorithm());
+			randomURLs.addAll(images.getRandomPhotosURL(5 + algorithm()));
 			for(URL randomURL : randomURLs) {
 				frame.add(createLabelImage(randomURL));
 			}
@@ -73,8 +74,8 @@ public class MainUi {
 		frame.setVisible(true);
 	}
 	
-	private static GridLayout createLayout(){
-		return new GridLayout(4,3);
+	private static GridLayout createLayout(int supp){
+		return new GridLayout(4 + supp, 3);
 	}
 	
 	@SuppressWarnings("serial")
@@ -92,6 +93,9 @@ public class MainUi {
 							System.out.println("Perdu");
 							frame.getContentPane().removeAll();
 							frame.repaint();
+							attemptNumber++;
+							GridLayout layout = createLayout(algorithm());
+							frame.setLayout(layout);
 							selectedImages.clear();
 							play();
 						} else {
@@ -103,6 +107,10 @@ public class MainUi {
 				});
 			}
 		});
+	}
+	
+	private static int algorithm() {
+		return (int) Math.max(Math.floor(Math.min(Math.log10((double) 10 * attemptNumber), 20.)), 0);
 	}
 	
 	private static int count(List<URL> urls) {

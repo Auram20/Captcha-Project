@@ -7,7 +7,7 @@ import java.util.List;
 
 abstract public class Specific extends AbstractImages {
 	
-	protected ArrayList<URL> photos = new ArrayList<URL>();
+	private ArrayList<URL> photos = new ArrayList<URL>();
 
 	public Specific() {
 		super();
