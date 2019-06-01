@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"fr.upem.captcha.images"},{"l":"fr.upem.captcha.images.panneaux"},{"l":"fr.upem.captcha.images.ponts"},{"l":"fr.upem.captcha.images.villes"},{"l":"fr.upem.captcha.ui"}]

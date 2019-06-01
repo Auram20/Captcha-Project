@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+* Specific class that inherits from the AbstractImages class
+*/
+
 abstract public class Specific extends AbstractImages {
 	
 	private ArrayList<URL> photos = new ArrayList<URL>();

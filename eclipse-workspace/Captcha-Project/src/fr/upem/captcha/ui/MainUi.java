@@ -1,4 +1,8 @@
 package fr.upem.captcha.ui;
+/**
+ *
+ * @author Cusumano/Anik
+ */
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -23,6 +27,9 @@ import javax.swing.JTextArea;
 import static javax.swing.JOptionPane.showMessageDialog;
 import fr.upem.captcha.images.Global;
 
+/**
+* Main UI class 
+*/
 public class MainUi {
 	
 	private static ArrayList<URL> selectedImages = new ArrayList<URL>();
@@ -33,6 +40,10 @@ public class MainUi {
 	private static String actualClassName;
 	private static JFrame frame = new JFrame("Captcha"); // Création de la fenêtre principale
 	
+	/**
+	* Main in our program, creates frame and play the program 
+	* @param args arguments for main 
+	*/
 	public static void main(String[] args) {
 		
 		images.load();
@@ -46,6 +57,9 @@ public class MainUi {
 		play();
 	}
 	
+	/**
+	* Play function to run the program
+	*/
 	private static void play() {
 		actualClassName = images.getRandomClassName();
 		String toSearch =  actualClassName.substring(actualClassName.lastIndexOf(".")+1);
@@ -74,14 +88,27 @@ public class MainUi {
 		frame.setVisible(true);
 	}
 	
+	/**
+	* Create layout grid 
+	* @return GridLayout 
+	* @param supp int for dificulty grid extension 
+	*/
 	private static GridLayout createLayout(int supp){
 		return new GridLayout(4 + supp, 3);
 	}
 	
+	/**
+	* Ok Button 
+	*/
 	@SuppressWarnings("serial")
 	private static JButton createOkButton(){
 		return new JButton(new AbstractAction("Vérifier") { //ajouter l'action du bouton
+	
 			
+	/**
+	* Event listener 
+	* @param arg0 arg0 
+	*/
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				EventQueue.invokeLater(new Runnable() { // faire des choses dans l'interface donc appeler cela dans la queue des évènements
@@ -114,6 +141,10 @@ public class MainUi {
 		return (int) Math.max(Math.floor(Math.min(Math.log10((double) 10 * attemptNumber), 20.)), 0);
 	}
 	
+	/**
+	* Counts the url list  
+	* @param urls list urls 
+	*/
 	private static int count(List<URL> urls) {
 		int sum = 0;
 		try {
@@ -130,6 +161,10 @@ public class MainUi {
 		return sum;
 	}
 	
+	/**
+	* Counts the url list to check if correct of not 
+	* @param urls list urls 
+	*/
 	private static int countResult(List<URL> urls) {
 		int sum = 0;
 		try {
@@ -148,7 +183,12 @@ public class MainUi {
 		System.out.println("Result : " + sum);
 		return sum;
 	}
-	
+
+	/**
+	* Creates label image with an url 
+	* @param image url
+	* @throws IOException if image wrong
+	*/
 	private static JLabel createLabelImage(URL url) throws IOException {
 		
 		System.out.println(url); 
@@ -180,7 +220,11 @@ public class MainUi {
 			public void mouseEntered(MouseEvent arg0) {
 				
 			}
-			
+
+			/**
+			* Mouse clicked event
+			* @param arg0 arg0 
+			*/
 			@Override
 			public void mouseClicked(MouseEvent arg0) { //ce qui nous intéresse c'est lorsqu'on clique sur une image, il y a donc des choses à faire ici
 				EventQueue.invokeLater(new Runnable() { 
