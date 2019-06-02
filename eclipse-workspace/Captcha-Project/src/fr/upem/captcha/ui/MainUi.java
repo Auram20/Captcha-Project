@@ -71,7 +71,7 @@ public class MainUi {
 		try {
 			System.out.println(algorithm());
 			randomURLs = images.getRandomPhotosURL(actualClassName, 4 + algorithm());
-			randomURLs.addAll(images.getRandomPhotosURL(5 + algorithm()));
+			randomURLs.addAll(images.getRandomPhotosURL(5 + 2 * algorithm()));
 			for(URL randomURL : randomURLs) {
 				frame.add(createLabelImage(randomURL));
 			}
@@ -138,7 +138,7 @@ public class MainUi {
 	}
 	
 	private static int algorithm() {
-		return (int) Math.max(Math.floor(Math.min(Math.log10((double) 10 * attemptNumber), 20.)), 0);
+		return (int) Math.max(Math.floor(Math.min(Math.log10((double) attemptNumber * attemptNumber), 2)), 0); // 3 niveaux de difficulté
 	}
 	
 	/**
