@@ -68,10 +68,10 @@ public class MainUi {
 		JButton okButton = createOkButton();
 		
 		List<URL> randomURLs;
+		int difficulty = algorithm();
 		try {
-			System.out.println(algorithm());
-			randomURLs = images.getRandomPhotosURL(actualClassName, 4 + algorithm());
-			randomURLs.addAll(images.getRandomPhotosURL(5 + 2 * algorithm()));
+			randomURLs = images.getRandomPhotosURL(actualClassName, 4 + difficulty);
+			randomURLs.addAll(images.getRandomPhotosURL(5 + 2 * difficulty));
 			for(URL randomURL : randomURLs) {
 				frame.add(createLabelImage(randomURL));
 			}
